@@ -12,7 +12,7 @@ tweets = []
 if not os.path.exists(file):
 	print "No such file found"
 else:
-	o = open("output1", "a")
+	o = open("output1", "w")
 	for line in open(file):
 		a = tokenizer.tokenize(line)
 		if(len(a) >= 2):

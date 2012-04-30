@@ -14,7 +14,7 @@ specific_tweets = []
 if not os.path.exists(file):
 	print "No such file found"
 else:
-	o = open("output1", "a")
+	o = open("output1", "w")
 	for line in open(file):
 		a = tokenizer.tokenize(line)
 		if(len(a) >= 2):
@@ -24,7 +24,7 @@ else:
 	sports_synset = wordnet.synset('sport.n.01')
 
 	for line in tweets:
-		out = 0
+		out = False
 		for word in line:
 			rep.replace(word)
 			if not wordnet.synsets(word):
@@ -32,17 +32,14 @@ else:
 				break
 			syn = wordnet.synsets(word)[0]
 			
-
 			if syn.name != "":
 				for element in syn.hypernym_paths():
 					for word1 in element:
 						if word1 == sports_synset:
 							specific_tweets.append(line)
-							out = 1
+							out = True
 							break
-				if out == 1:
-					break
-			if out == 1:
-				break
+				if out == True:
+					break		
 	for line in specific_tweets:
 		print line
