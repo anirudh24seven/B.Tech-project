@@ -3,7 +3,9 @@ import re
 from nltk.tokenize import WordPunctTokenizer
 from replacer import RepeatReplacer
 from nltk.corpus import wordnet
+from taggers import WordNetTagger
 
+#usernames need to be handled as nouns for pos tagging. might lead to poor results while interpreting.
 rep = RepeatReplacer()
 
 file = os.path.expanduser('output')
@@ -23,7 +25,7 @@ else:
 	i = 0	
 
 	for line in tweets:
-		out = False
+		out = 0
 		for word in line:
 			rep.replace(word)
 			if not wordnet.synsets(word):
@@ -39,13 +41,15 @@ else:
 				for word1 in element:
 					if word1 == sports_synset:
 						specific_tweets.append(line)
-						out = True
+						out += 1
 						i+=1
 						break
-				if out == True:
+				if out > 0:
 					break
-			if out == True:
+			if out > 0:
 				break
+	w = WordNetTagger()	
 	for line in specific_tweets:
 		print line
+		print w.tag(line)
 	print i

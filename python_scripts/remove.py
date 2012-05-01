@@ -1,14 +1,19 @@
 import os, os.path
 import re
-file = os.path.expanduser('anirudh24seven.txt')
+name = "anirudh24seven"
+filename = name + ".txt"
+file = os.path.expanduser(filename)
 
 if not os.path.exists(file):
 	print "No such file found"
 else:
 	o = open("output", "w")
 	for line in open(file):
-		line = re.sub(r'@([\w\.-])+ ', r'', line)
-		line = line.replace("http","")
+		#line = re.sub('(^\@\S+) ', r'person: ', line)
+		#line = re.sub('(\@\S+) ', 'person ', line)
+		#line = re.sub(' (\@\S+)', ' person', line)
+		line = re.sub('@', '', line)
+		line = re.sub('(http://\S+)', r'', line)
 		o.write(line)
 	o.close()
 
