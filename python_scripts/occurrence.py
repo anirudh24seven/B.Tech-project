@@ -3,7 +3,9 @@ import re
 from nltk.tokenize import WordPunctTokenizer
 from replacer import RepeatReplacer
 from nltk.corpus import wordnet
+from taggers import WordNetTagger
 
+#usernames need to be handled as nouns for pos tagging. might lead to poor results while interpreting.
 rep = RepeatReplacer()
 
 file = os.path.expanduser('output')
@@ -11,6 +13,7 @@ tokenizer = WordPunctTokenizer()
 tweets = []
 specific_tweets = []
 sports_word = []
+sports_count = []
 
 if not os.path.exists(file):
 	print "No such file found"
@@ -24,7 +27,7 @@ else:
 	i = 0	
 
 	for line in tweets:
-		out = False
+		out = 0
 		for word in line:
 			rep.replace(word)
 			if not wordnet.synsets(word):
@@ -33,21 +36,48 @@ else:
 
 			if word == "cricket" :
 				i+=1
+				if not word in sports_word:
+					sports_word.append(word)
 				specific_tweets.append(line)
 				break
 			
 			for element in syn.hypernym_paths():
 				for word1 in element:
 					if word1 == sports_synset:
-                        sports_word.append(word)
 						specific_tweets.append(line)
-						out = True
+						if not word in sports_word:
+							sports_word.append(word)
+						out += 1
 						i+=1
 						break
-				if out == True:
+				if out > 0:
 					break
-			if out == True:
+			if out > 0:
 				break
-	for line in specific_tweets:
-		print line
+	w = WordNetTagger()	
+
+	for word in sports_word:
+		count = 0
+		for line in specific_tweets:
+			if word in line:
+				count+=1
+		sports_count.append(count)
+	
+	s_len = len(sports_word)
+	sports_pair = []
+
+	for i in range(0, s_len):
+		temp_pair = []
+		temp_pair.append(sports_word[i])
+		temp_pair.append(sports_count[i])
+		sports_pair.append(temp_pair)
+
+	sorted_sports = sorted(sports_pair, key = lambda sports_pair: sports_pair[1], reverse=True)
+	for pair in sorted_sports:
+		print pair
+
+#	for line in specific_tweets:
+#		print line
+#		print w.tag(line)
+     
 	print i

@@ -5,7 +5,7 @@ require 'crack'
 MAX_NUMBER_OF_TWEETS = 3200
 NUMBER_OF_TWEETS_PER_PAGE = 200
 
-TARGET_USERNAME = 'anirudh24seven'
+TARGET_USERNAME = 'bhogleharsha'
 
 DATA_DIRECTORY = "data-hold"
 

@@ -13,6 +13,8 @@ tokenizer = WordPunctTokenizer()
 tweets = []
 specific_tweets = []
 sports_word = []
+sports_count = []
+pos_list = []
 
 if not os.path.exists(file):
 	print "No such file found"
@@ -35,6 +37,8 @@ else:
 
 			if word == "cricket" :
 				i+=1
+				if not word in sports_word:
+					sports_word.append(word)
 				specific_tweets.append(line)
 				break
 			
@@ -42,8 +46,8 @@ else:
 				for word1 in element:
 					if word1 == sports_synset:
 						specific_tweets.append(line)
-						#if not word in sports_word:
-						#	sports_word.append(word)
+						if not word in sports_word:
+							sports_word.append(word)
 						out += 1
 						i+=1
 						break
@@ -54,10 +58,34 @@ else:
 	w = WordNetTagger()	
 
 	for word in sports_word:
-		print word
+		count = 0
+		for line in specific_tweets:
+			if word in line:
+				count+=1
+		sports_count.append(count)
+	
+	s_len = len(sports_word)
+	sports_pair = []
 
-#	for line in specific_tweets:
-#		print line
-#		print w.tag(line)
-     
-	print i
+	for i in range(0, s_len):
+		temp_pair = []
+		temp_pair.append(sports_word[i])
+		temp_pair.append(sports_count[i])
+		sports_pair.append(temp_pair)
+
+	sorted_sports = sorted(sports_pair, key = lambda sports_pair: sports_pair[1], reverse=True)
+
+	for line in specific_tweets:
+		 pos_line = w.tag(line)
+		 pos_list.append(pos_line)
+
+	for pair in sorted_sports:
+		sport = pair[0]
+		for s in range(0, len(specific_tweets)):
+			if sport in specific_tweets[s]:
+				for p in range(0, len(pos_list[s])):
+					if pos_list[s][p][1] == 'JJ':
+						print specific_tweets[s][p],
+						
+		print ''
+
