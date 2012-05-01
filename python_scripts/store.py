@@ -12,8 +12,6 @@ else:
 	o = open("output1", "w")
 	for line in open(file):
 		a = tokenizer.tokenize(line)
-		if(len(a) >= 2):
-			tweets.append(a)
 	o.close()
 	print tweets
 
