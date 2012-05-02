@@ -1,8 +1,0 @@
-This is our B.Tech project.
-
-Contributors:
-Anirudh S 	- 106108053
-Lenoy Jacob	- 106108041
-Ashok Kumar	- 106108052
-
-This project goes through the last 3200 tweets of any user (or all tweets for users who have tweeted <3200 times and by using text mining algorithms and sentiment analysis, build a profile based on those tweets.

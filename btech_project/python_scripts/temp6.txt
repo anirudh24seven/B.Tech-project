@@ -1,0 +1,6 @@
+cricket strongly follow
+hockey neutral
+football neutral
+tennis strongly follow
+jumping neutral
+riding strongly follow
